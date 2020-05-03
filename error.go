@@ -13,9 +13,12 @@ import (
 type Priority int
 
 const (
-	PriorityHigh   Priority = 10
-	PriorityNormal          = 0
-	PriorityLow             = -10
+	// PriorityHigh is high priority
+	PriorityHigh Priority = 10
+	// PriorityNormal is normal priority
+	PriorityNormal = 0
+	// PriorityLow is low priority
+	PriorityLow = -10
 )
 
 // Error ...
