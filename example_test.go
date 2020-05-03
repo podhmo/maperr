@@ -6,26 +6,20 @@ import (
 	"github.com/podhmo/maperr"
 )
 
-func ExampleFormat() {
-	var err *maperr.Error
-	err = err.AddSummary("💣error is occured")
-
-	fmt.Printf("%v", err)
-	// Output:
-	// Error -- "💣error is occured" (1 number of errors)
-}
-
-func ExampleFormatVerbose() {
+func ExampleError_Format() {
 	var err *maperr.Error
 	err = err.
 		AddSummary("💣error is occured").
 		Add("name", maperr.Message{Text: "name is empty"})
 
-	fmt.Printf("%+v", err)
+	fmt.Printf("%v\n", err)
+	fmt.Printf("%+v\n", err)
+
 	// Output:
+	// Error -- "💣error is occured" (1 number of errors)
 	// Error -- {
 	//   "summary": "💣error is occured",
-	//   "fields": {
+	//   "messages": {
 	//     "name": [
 	//       {
 	//         "text": "name is empty"
@@ -33,4 +27,5 @@ func ExampleFormatVerbose() {
 	//     ]
 	//   }
 	// }
+
 }

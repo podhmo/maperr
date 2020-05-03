@@ -21,7 +21,7 @@ const (
 // Error ...
 type Error struct {
 	Summary     string               `json:"summary"`
-	Fields      map[string][]Message `json:"fields,omitempty"`
+	Messages    map[string][]Message `json:"messages,omitempty"`
 	MaxPriority Priority             `json:"-"`
 	Total       int                  `json:"-"`
 }
@@ -37,10 +37,9 @@ type Message struct {
 func (e *Error) AddSummary(summary string) *Error {
 	if e == nil {
 		e = &Error{
-			Summary: summary,
-			Fields:  map[string][]Message{},
+			Summary:  summary,
+			Messages: map[string][]Message{},
 		}
-		e.Total++
 	}
 	e.Summary = summary
 	e.MaxPriority = PriorityHigh
@@ -52,11 +51,11 @@ func (e *Error) Add(name string, message Message) *Error {
 	if e == nil {
 		e = &Error{
 			Summary:     message.Text,
-			Fields:      map[string][]Message{},
+			Messages:    map[string][]Message{},
 			MaxPriority: message.Priority,
 		}
 	}
-	e.Fields[name] = append(e.Fields[name], message)
+	e.Messages[name] = append(e.Messages[name], message)
 	if e.MaxPriority < message.Priority {
 		e.MaxPriority = message.Priority
 		e.Summary = message.Text
