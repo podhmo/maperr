@@ -1,3 +1,3 @@
 # maperr
 
-- https://pkg.go.dev/github.com/podhmo/maperr
+- https://godoc.org/github.com/podhmo/maperr
