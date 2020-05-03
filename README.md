@@ -65,7 +65,7 @@ result (verbose output)
 
 ```
 2020/05/03 17:16:34 Error -- {
-  "summary": "required",
+  "summary": "name, required",
   "messages": {
     "name": [
       {
@@ -87,5 +87,5 @@ If your code is something like following
 Output is here.
 
 ```
-Error -- "required" (1 number of errors)
+Error -- "name, required" (1 number of errors)
 ```

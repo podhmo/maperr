@@ -53,7 +53,7 @@ func (e *Error) AddSummary(summary string) *Error {
 func (e *Error) Add(name string, message Message) *Error {
 	if e == nil {
 		e = &Error{
-			Summary:     message.Text,
+			Summary:     fmt.Sprintf("%s, %s", name, message.Text),
 			Messages:    map[string][]Message{},
 			MaxPriority: message.Priority,
 		}
@@ -61,7 +61,7 @@ func (e *Error) Add(name string, message Message) *Error {
 	e.Messages[name] = append(e.Messages[name], message)
 	if e.MaxPriority < message.Priority {
 		e.MaxPriority = message.Priority
-		e.Summary = message.Text
+		e.Summary = fmt.Sprintf("%s, %s", name, message.Text)
 	}
 	e.Total++
 	return e
