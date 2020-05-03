@@ -1,16 +1,3 @@
-# maperr
-
-- https://godoc.org/github.com/podhmo/maperr
-
-## install
-
-```
-go get github.com/podhmo/maperr
-```
-
-## how to use
-
-```go
 package main
 
 import (
@@ -59,33 +46,3 @@ func main() {
 		log.Fatalf("%+v", err)
 	}
 }
-```
-
-result (verbose output)
-
-```
-2020/05/03 17:16:34 Error -- {
-  "summary": "required",
-  "messages": {
-    "name": [
-      {
-        "text": "required"
-      }
-    ]
-  }
-}
-exit status 1
-```
-
-## short version
-
-If your code is something like following
-
-- `panic(err)`
-- `log.Fatalf("%v", err)`
-
-Output is here.
-
-```
-Error -- "required" (1 number of errors)
-```
