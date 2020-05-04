@@ -31,9 +31,10 @@ type Error struct {
 
 // Message ...
 type Message struct {
-	Text     string   `json:"text"`
-	Priority Priority `json:"-"`
-	Kind     string   `json:"-"`
+	Text     string      `json:"text,omitempty"`
+	Error    interface{} `json:"error,omitempty"`
+	Priority Priority    `json:"-"`
+	Kind     string      `json:"-"`
 }
 
 // AddSummary ...
@@ -53,13 +54,16 @@ func (e *Error) AddSummary(summary string) *Error {
 func (e *Error) Add(name string, message Message) *Error {
 	if e == nil {
 		e = &Error{
-			Summary:     fmt.Sprintf("%s, %s", name, message.Text),
 			Messages:    map[string][]Message{},
 			MaxPriority: message.Priority,
 		}
+		if message.Text != "" {
+			e.Summary = fmt.Sprintf("%s, %s", name, message.Text)
+		}
 	}
+
 	e.Messages[name] = append(e.Messages[name], message)
-	if e.MaxPriority < message.Priority {
+	if e.MaxPriority < message.Priority && message.Text != "" {
 		e.MaxPriority = message.Priority
 		e.Summary = fmt.Sprintf("%s, %s", name, message.Text)
 	}
@@ -118,8 +122,21 @@ func (e *Error) writeMultiline(w io.Writer) {
 	}
 }
 
+// MarshalJSON ...
+func (e *Error) MarshalJSON() ([]byte, error) {
+	layout := DefaultLayout.Layout(e)
+	return json.Marshal(layout)
+}
+
+// Layout ...
+type Layout interface {
+	Layout(*Error) interface{}
+}
+
 var prettyPrint bool
+var DefaultLayout Layout
 
 func init() {
 	prettyPrint, _ = strconv.ParseBool(os.Getenv("DEBUG"))
+	DefaultLayout = &FlattenLayout{}
 }
