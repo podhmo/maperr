@@ -29,6 +29,9 @@ func (v *FullLayout) Layout(err *Error) interface{} {
 
 			err, ok := m.Error.(*Error)
 			if !ok {
+				if rawerr, ok := m.Error.(error); ok {
+					m.Text = rawerr.Error()
+				}
 				buf = append(buf, m)
 				continue
 			}
@@ -75,6 +78,9 @@ func (v *FlattenLayout) layout(err *Error) *FlattenLayout {
 
 			err, ok := m.Error.(*Error)
 			if !ok {
+				if rawerr, ok := m.Error.(error); ok {
+					m.Text = rawerr.Error()
+				}
 				buf = append(buf, m)
 				continue
 			}
