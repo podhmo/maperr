@@ -23,6 +23,8 @@ const (
 
 // Error ...
 type Error struct {
+	_Named_Fields_Required struct{}
+
 	Summary     string               `json:"summary"`
 	Messages    map[string][]Message `json:"messages,omitempty"`
 	MaxPriority Priority             `json:"-"`
