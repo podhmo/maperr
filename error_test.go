@@ -26,3 +26,33 @@ func TestUntyped(t *testing.T) {
 		}
 	}
 }
+
+func TestFirstErrorSideEffect(t *testing.T) {
+	{
+		run := func() error {
+			return (&maperr.Error{}).AddSummary("summary").Untyped()
+		}
+		if err := run(); err == nil {
+			t.Errorf("want err, but nil")
+		}
+	}
+	{
+		run := func() error {
+			var err *maperr.Error
+			return err.AddSummary("summary").Untyped()
+		}
+		if err := run(); err == nil {
+			t.Errorf("want err, but nil")
+		}
+	}
+	{
+		run := func() error {
+			var err *maperr.Error
+			err = err.AddSummary("summary")
+			return err.Untyped()
+		}
+		if err := run(); err == nil {
+			t.Errorf("want err, but nil")
+		}
+	}
+}
