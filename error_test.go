@@ -46,13 +46,14 @@ func TestFirstErrorSideEffect(t *testing.T) {
 		}
 	}
 	{
+		// FIXME
 		run := func() error {
 			var err *maperr.Error
-			err = err.AddSummary("summary")
+			err.AddSummary("summary") // not err = err.AddSummary()
 			return err.Untyped()
 		}
-		if err := run(); err == nil {
-			t.Errorf("want err, but nil")
+		if err := run(); err != nil {
+			t.Errorf("want nil, but err")
 		}
 	}
 }
