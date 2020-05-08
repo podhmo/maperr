@@ -84,6 +84,9 @@ func (v *FlattenLayout) layout(err *Error) *FlattenLayout {
 				buf = append(buf, m)
 				continue
 			}
+			if err == nil { // typed nil
+				continue
+			}
 
 			if layout.MaxPriority < err.MaxPriority || (layout.MaxPriority == err.MaxPriority && layout.Summary == "") {
 				layout.Summary = fmt.Sprintf("%s, %s", name, err.Summary)
