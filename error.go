@@ -23,8 +23,6 @@ const (
 
 // Error ...
 type Error struct {
-	_Named_Fields_Required struct{}
-
 	Summary     string               `json:"summary"`
 	Messages    map[string][]Message `json:"messages,omitempty"`
 	MaxPriority Priority             `json:"-"`
@@ -43,10 +41,13 @@ type Message struct {
 func (e *Error) AddSummary(summary string) *Error {
 	if e == nil {
 		e = &Error{
-			Summary:  summary,
-			Messages: map[string][]Message{},
+			Summary: summary,
 		}
 	}
+	if e.Messages == nil {
+		e.Messages = map[string][]Message{}
+	}
+
 	e.Summary = summary
 	e.MaxPriority = PriorityHigh
 	return e
@@ -56,12 +57,14 @@ func (e *Error) AddSummary(summary string) *Error {
 func (e *Error) Add(name string, message Message) *Error {
 	if e == nil {
 		e = &Error{
-			Messages:    map[string][]Message{},
 			MaxPriority: message.Priority,
 		}
 		if message.Text != "" {
 			e.Summary = fmt.Sprintf("%s, %s", name, message.Text)
 		}
+	}
+	if e.Messages == nil {
+		e.Messages = map[string][]Message{}
 	}
 
 	e.Messages[name] = append(e.Messages[name], message)
